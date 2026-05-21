@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/providers/auth-provider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -66,7 +67,7 @@ export function RegisterForm() {
           type="text"
           label="Nombre"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => { setName(e.target.value); setErrors(prev => ({ ...prev, name: undefined })); }}
           error={errors.name}
           placeholder="Juan Pérez"
           autoComplete="name"
@@ -77,7 +78,7 @@ export function RegisterForm() {
           type="email"
           label="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: undefined })); }}
           error={errors.email}
           placeholder="tu@email.com"
           autoComplete="email"
@@ -88,7 +89,7 @@ export function RegisterForm() {
           type="password"
           label="Contraseña"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => { setPassword(e.target.value); setErrors(prev => ({ ...prev, password: undefined })); }}
           error={errors.password}
           placeholder="Mínimo 8 caracteres"
           autoComplete="new-password"
@@ -101,9 +102,9 @@ export function RegisterForm() {
 
       <p className="mt-4 text-center text-sm text-gray-600">
         ¿Ya tienes cuenta?{' '}
-        <a href="/login" className="text-blue-600 hover:underline">
+        <Link href="/login" className="text-blue-600 hover:underline">
           Inicia sesión
-        </a>
+        </Link>
       </p>
     </Card>
   );

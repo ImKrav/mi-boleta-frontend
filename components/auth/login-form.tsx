@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useAuth } from '@/providers/auth-provider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -59,7 +60,7 @@ export function LoginForm() {
           type="email"
           label="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: undefined })); }}
           error={errors.email}
           placeholder="tu@email.com"
           autoComplete="email"
@@ -70,7 +71,7 @@ export function LoginForm() {
           type="password"
           label="Contraseña"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => { setPassword(e.target.value); setErrors(prev => ({ ...prev, password: undefined })); }}
           error={errors.password}
           placeholder="••••••••"
           autoComplete="current-password"
@@ -83,9 +84,9 @@ export function LoginForm() {
 
       <p className="mt-4 text-center text-sm text-gray-600">
         ¿No tienes cuenta?{' '}
-        <a href="/register" className="text-blue-600 hover:underline">
+        <Link href="/register" className="text-blue-600 hover:underline">
           Regístrate aquí
-        </a>
+        </Link>
       </p>
     </Card>
   );
