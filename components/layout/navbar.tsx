@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { TicketIcon, ShieldIcon, UserIcon, LogoutIcon, ListIcon } from '@/components/ui/icons';
+import { NotificationBell } from '@/components/ui/notification-bell';
 
 const navLinks = [
   { href: '/dashboard/tickets', label: 'Mis Boletas', icon: ListIcon },
@@ -48,6 +49,7 @@ export function Navbar() {
           </div>
 
           <div className="flex items-center gap-3">
+            <NotificationBell />
             <span className="hidden sm:flex items-center gap-2 text-sm font-medium text-muted-foreground bg-muted px-3 py-1.5 rounded-lg">
               <UserIcon size={16} />
               {user?.name}

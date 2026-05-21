@@ -56,3 +56,17 @@ export type TicketFilters = {
 export type AdminTicketFilters = TicketFilters & {
   userId?: string;
 };
+
+export type NotificationType = 'won' | 'upcoming' | 'expired' | 'action_required';
+export type NotificationAudience = 'user' | 'admin';
+
+export interface AppNotification {
+  id: string;
+  type: NotificationType;
+  audience: NotificationAudience;
+  title: string;
+  message: string;
+  ticketId?: string;
+  createdAt: string;
+  dismissed: boolean;
+}

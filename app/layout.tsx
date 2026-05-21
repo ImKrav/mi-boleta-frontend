@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Poppins, Open_Sans } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/providers/auth-provider";
+import { NotificationProvider } from "@/providers/notification-provider";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -33,7 +34,9 @@ export default function RootLayout({
       className={`${poppins.variable} ${openSans.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-background">
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <NotificationProvider>{children}</NotificationProvider>
+        </AuthProvider>
       </body>
     </html>
   );
