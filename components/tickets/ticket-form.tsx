@@ -44,6 +44,9 @@ export function TicketForm({ ticket, mode }: TicketFormProps) {
     if (!formData.gameType) newErrors.gameType = ['El tipo de juego es requerido'];
     if (!formData.gameDate) newErrors.gameDate = ['La fecha del sorteo es requerida'];
     if (!formData.status) newErrors.status = ['El estado es requerido'];
+    if (formData.amount && parseFloat(formData.amount) <= 0) {
+      newErrors.amount = ['El valor debe ser mayor a 0'];
+    }
 
     const date = new Date(formData.gameDate);
     if (isNaN(date.getTime())) newErrors.gameDate = ['La fecha no es válida'];
@@ -102,7 +105,7 @@ export function TicketForm({ ticket, mode }: TicketFormProps) {
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
           id="title"
-          label="Nombre del sorteo"
+          label="Nombre del sorteo *"
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           error={errors.title?.[0]}
@@ -112,7 +115,7 @@ export function TicketForm({ ticket, mode }: TicketFormProps) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <Select
             id="gameType"
-            label="Tipo de juego"
+            label="Tipo de juego *"
             value={formData.gameType}
             onChange={(e) => setFormData({ ...formData, gameType: e.target.value as Ticket['gameType'] })}
             error={errors.gameType?.[0]}
@@ -135,7 +138,7 @@ export function TicketForm({ ticket, mode }: TicketFormProps) {
           <Input
             id="gameDate"
             type="date"
-            label="Fecha del sorteo"
+            label="Fecha del sorteo *"
             value={formData.gameDate}
             onChange={(e) => setFormData({ ...formData, gameDate: e.target.value })}
             error={errors.gameDate?.[0]}
@@ -161,7 +164,7 @@ export function TicketForm({ ticket, mode }: TicketFormProps) {
 
         <Select
           id="status"
-          label="Estado"
+          label="Estado *"
           value={formData.status}
           onChange={(e) => setFormData({ ...formData, status: e.target.value as Ticket['status'] })}
           error={errors.status?.[0]}

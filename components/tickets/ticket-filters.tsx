@@ -34,7 +34,6 @@ export function TicketFilters({ filters, onFilterChange, onReset }: TicketFilter
 
         <Select
           id="status-filter"
-          label=""
           value={filters.status || ''}
           onChange={(e) => onFilterChange({ ...filters, status: (e.target.value as Ticket['status']) || undefined })}
           options={[
@@ -45,7 +44,6 @@ export function TicketFilters({ filters, onFilterChange, onReset }: TicketFilter
 
         <Select
           id="type-filter"
-          label=""
           value={filters.gameType || ''}
           onChange={(e) => onFilterChange({ ...filters, gameType: (e.target.value as Ticket['gameType']) || undefined })}
           options={[

@@ -13,16 +13,19 @@ import { Spinner } from '@/components/ui/spinner';
 export function TicketList() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [meta, setMeta] = useState({ total: 0, page: 1, pageSize: 20, totalPages: 1 });
   const [filters, setFilters] = useState<TicketFilters>({});
 
   const fetchTickets = async (page = 1) => {
     setLoading(true);
+    setError(null);
     try {
       const response = await ticketsApi.list({ ...filters, page });
       setTickets(response.data);
       setMeta(response.meta);
     } catch (err) {
+      setError(err instanceof Error ? err.message : 'Error al cargar las boletas');
       console.error('Error fetching tickets:', err);
     } finally {
       setLoading(false);
@@ -31,6 +34,7 @@ export function TicketList() {
 
   useEffect(() => {
     fetchTickets(1);
+    setMeta(prev => ({ ...prev, page: 1 }));
   }, [filters]);
 
   const handleDelete = async (id: string) => {
@@ -39,6 +43,7 @@ export function TicketList() {
     try {
       await ticketsApi.delete(id);
       setTickets(tickets.filter((t) => t.id !== id));
+      setMeta(prev => ({ ...prev, total: prev.total - 1 }));
     } catch (err) {
       console.error('Error deleting ticket:', err);
       alert('Error al eliminar la boleta');
@@ -51,6 +56,17 @@ export function TicketList() {
 
   if (loading && tickets.length === 0) {
     return <Spinner size="lg" />;
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-red-600">{error}</p>
+        <button onClick={() => fetchTickets(1)} className="text-blue-600 hover:underline mt-2">
+          Reintentar
+        </button>
+      </div>
+    );
   }
 
   return (
