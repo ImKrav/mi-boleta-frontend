@@ -48,6 +48,11 @@ export async function apiFetch<T>(endpoint: string, options: ApiOptions = {}): P
   }
 
   const data = await response.json();
+
+  if (data && typeof data === 'object' && 'data' in data && 'meta' in data) {
+    return data as T;
+  }
+
   return data.data ?? data;
 }
 
