@@ -9,17 +9,25 @@ import { Spinner } from '@/components/ui/spinner';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 
+const statusColors = {
+  Pendiente: 'warning' as const,
+  Ganado: 'success' as const,
+  Perdido: 'danger' as const,
+};
+
 export default function DashboardPage() {
   const [stats, setStats] = useState({ total: 0, pending: 0, upcoming: 0 });
   const [upcomingTickets, setUpcomingTickets] = useState<Ticket[]>([]);
+  const [recentTickets, setRecentTickets] = useState<Ticket[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [allRes, pendingRes] = await Promise.all([
+        const [allRes, pendingRes, recentRes] = await Promise.all([
           ticketsApi.list({ pageSize: 100 }),
           ticketsApi.list({ status: 'Pendiente', pageSize: 100 }),
+          ticketsApi.list({ pageSize: 5 }),
         ]);
 
         const now = new Date();
@@ -32,6 +40,7 @@ export default function DashboardPage() {
         });
 
         setUpcomingTickets(upcoming.slice(0, 5));
+        setRecentTickets(recentRes.data);
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
       } finally {
@@ -103,6 +112,43 @@ export default function DashboardPage() {
                   </div>
                   <Badge variant="warning">{ticket.status}</Badge>
                 </div>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-foreground">Historial</h2>
+          <Link href="/dashboard/tickets" className="text-sm text-primary hover:underline font-medium">
+            Ver todas →
+          </Link>
+        </div>
+        {recentTickets.length === 0 ? (
+          <p className="text-muted-foreground">No hay boletas registradas</p>
+        ) : (
+          <div className="space-y-4">
+            {recentTickets.map((ticket) => (
+              <Card key={ticket.id}>
+                <Link href={`/dashboard/tickets/${ticket.id}`} className="block px-6 py-4 hover:bg-muted/50 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-medium text-foreground">{ticket.title}</p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        {new Date(ticket.gameDate).toLocaleDateString('es-ES', {
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric',
+                        })}
+                        {ticket.gameNumber && (
+                          <span className="ml-2">· Número: {ticket.gameNumber}</span>
+                        )}
+                      </p>
+                    </div>
+                    <Badge variant={statusColors[ticket.status]}>{ticket.status}</Badge>
+                  </div>
+                </Link>
               </Card>
             ))}
           </div>
