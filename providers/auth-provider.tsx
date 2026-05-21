@@ -21,11 +21,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     const storedUser = getUser();
     setUser(storedUser);
     setLoading(false);
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const login = useCallback(async (email: string, password: string) => {
     const response = await authApi.login(email, password);

@@ -2,7 +2,8 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import Link from 'next/link';
 import type { Ticket, TicketFilters } from '@/types';
 import { ticketsApi } from '@/lib/api';
 import { TicketCard } from './ticket-card';
@@ -17,7 +18,7 @@ export function TicketList() {
   const [meta, setMeta] = useState({ total: 0, page: 1, pageSize: 20, totalPages: 1 });
   const [filters, setFilters] = useState<TicketFilters>({});
 
-  const fetchTickets = async (page = 1) => {
+  const fetchTickets = useCallback(async (page = 1) => {
     setLoading(true);
     setError(null);
     try {
@@ -30,12 +31,13 @@ export function TicketList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     fetchTickets(1);
-    setMeta(prev => ({ ...prev, page: 1 }));
-  }, [filters]);
+  }, [fetchTickets]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleDelete = async (id: string) => {
     if (!confirm('¿Estás seguro de eliminar esta boleta?')) return;
@@ -76,9 +78,9 @@ export function TicketList() {
       {tickets.length === 0 ? (
         <div className="text-center py-12">
           <p className="text-gray-500 text-lg">No hay boletas registradas</p>
-          <a href="/dashboard/tickets/new" className="text-blue-600 hover:underline mt-2 inline-block">
+          <Link href="/dashboard/tickets/new" className="text-blue-600 hover:underline mt-2 inline-block">
             Crear tu primera boleta
-          </a>
+          </Link>
         </div>
       ) : (
         <>

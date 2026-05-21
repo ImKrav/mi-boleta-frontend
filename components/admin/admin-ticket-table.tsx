@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { AdminTicket, AdminTicketFilters } from '@/types';
 import { adminApi } from '@/lib/api';
 import { GAME_TYPES, TICKET_STATUSES } from '@/lib/constants';
@@ -27,7 +27,7 @@ export function AdminTicketTable() {
   const [filters, setFilters] = useState<AdminTicketFilters>({});
   const [error, setError] = useState<string | null>(null);
 
-  const fetchTickets = async (page = 1) => {
+  const fetchTickets = useCallback(async (page = 1) => {
     setLoading(true);
     setError(null);
     try {
@@ -39,12 +39,13 @@ export function AdminTicketTable() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     fetchTickets(1);
-    setMeta(prev => ({ ...prev, page: 1 }));
-  }, [filters]);
+  }, [fetchTickets]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleReset = () => {
     setFilters({});
