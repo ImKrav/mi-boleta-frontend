@@ -63,8 +63,8 @@ export function TicketList() {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-600">{error}</p>
-        <button onClick={() => fetchTickets(1)} className="text-blue-600 hover:underline mt-2">
+        <p className="text-destructive">{error}</p>
+        <button onClick={() => fetchTickets(1)} className="text-primary hover:underline mt-4 inline-block cursor-pointer">
           Reintentar
         </button>
       </div>
@@ -72,13 +72,13 @@ export function TicketList() {
   }
 
   return (
-    <div>
+    <div className="space-y-6">
       <FiltersComponent filters={filters} onFilterChange={setFilters} onReset={handleReset} />
 
       {tickets.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No hay boletas registradas</p>
-          <Link href="/dashboard/tickets/new" className="text-blue-600 hover:underline mt-2 inline-block">
+        <div className="text-center py-16">
+          <p className="text-muted-foreground text-lg">No hay boletas registradas</p>
+          <Link href="/dashboard/tickets/new" className="text-primary hover:underline mt-4 inline-block">
             Crear tu primera boleta
           </Link>
         </div>
@@ -90,7 +90,7 @@ export function TicketList() {
             ))}
           </div>
 
-          <div className="mt-6">
+          <div className="pt-4">
             <Pagination
               currentPage={meta.page}
               totalPages={meta.totalPages}

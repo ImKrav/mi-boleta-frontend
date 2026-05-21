@@ -22,7 +22,7 @@ export function TicketFilters({ filters, onFilterChange, onReset }: TicketFilter
   const hasFilters = filters.status || filters.gameType || filters.q;
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-sm border mb-6">
+    <div className="bg-card p-6 rounded-xl border border-border shadow-sm">
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <Input
           id="search"
@@ -54,7 +54,7 @@ export function TicketFilters({ filters, onFilterChange, onReset }: TicketFilter
       </div>
 
       {hasFilters && (
-        <div className="mt-3 flex justify-end">
+        <div className="mt-4 flex justify-end">
           <Button variant="ghost" size="sm" onClick={onReset}>
             Limpiar filtros
           </Button>

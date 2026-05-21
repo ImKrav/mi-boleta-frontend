@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import type { Ticket } from '@/types';
 import { ticketsApi } from '@/lib/api';
-import { Card } from '@/components/ui/card';
+import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
@@ -43,14 +43,14 @@ export default function ViewTicketPage() {
   }
 
   if (!ticket) {
-    return <p className="text-center text-gray-500">Boleta no encontrada</p>;
+    return <p className="text-center text-muted-foreground py-12">Boleta no encontrada</p>;
   }
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">{ticket.title}</h1>
-        <div className="flex gap-2">
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold text-foreground">{ticket.title}</h1>
+        <div className="flex items-center gap-3">
           <Link href={`/dashboard/tickets/${ticket.id}/edit`}>
             <Button variant="secondary">Editar</Button>
           </Link>
@@ -61,55 +61,58 @@ export default function ViewTicketPage() {
       </div>
 
       <Card>
-        <div className="space-y-4">
-          <div className="flex items-center gap-2">
+        <CardHeader>
+          <div className="flex items-center gap-3">
             <Badge variant={statusColors[ticket.status]}>{ticket.status}</Badge>
-            <span className="text-sm text-gray-600">{ticket.gameType}</span>
+            <span className="text-sm text-muted-foreground">{ticket.gameType}</span>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {ticket.gameNumber && (
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {ticket.gameNumber && (
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Número</p>
+                  <p className="font-medium text-foreground">{ticket.gameNumber}</p>
+                </div>
+              )}
               <div>
-                <p className="text-sm text-gray-600">Número</p>
-                <p className="font-medium">{ticket.gameNumber}</p>
+                <p className="text-sm text-muted-foreground mb-1">Fecha del sorteo</p>
+                <p className="font-medium text-foreground">
+                  {new Date(ticket.gameDate).toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </p>
               </div>
-            )}
-            <div>
-              <p className="text-sm text-gray-600">Fecha del sorteo</p>
-              <p className="font-medium">
-                {new Date(ticket.gameDate).toLocaleDateString('es-ES', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </p>
+              {ticket.amount && (
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Valor apostado</p>
+                  <p className="font-medium text-foreground">${ticket.amount.toLocaleString('es-CO')}</p>
+                </div>
+              )}
+              {ticket.place && (
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Lugar de compra</p>
+                  <p className="font-medium text-foreground">{ticket.place}</p>
+                </div>
+              )}
             </div>
-            {ticket.amount && (
-              <div>
-                <p className="text-sm text-gray-600">Valor apostado</p>
-                <p className="font-medium">${ticket.amount.toLocaleString('es-CO')}</p>
-              </div>
-            )}
-            {ticket.place && (
-              <div>
-                <p className="text-sm text-gray-600">Lugar de compra</p>
-                <p className="font-medium">{ticket.place}</p>
-              </div>
-            )}
-          </div>
 
-          {ticket.notes && (
-            <div>
-              <p className="text-sm text-gray-600">Notas</p>
-              <p className="mt-1 text-gray-700">{ticket.notes}</p>
+            {ticket.notes && (
+              <div>
+                <p className="text-sm text-muted-foreground mb-2">Notas</p>
+                <p className="text-foreground">{ticket.notes}</p>
+              </div>
+            )}
+
+            <div className="pt-6 border-t border-border text-sm text-muted-foreground space-y-1">
+              <p>Creado: {new Date(ticket.createdAt).toLocaleString('es-ES')}</p>
+              <p>Actualizado: {new Date(ticket.updatedAt).toLocaleString('es-ES')}</p>
             </div>
-          )}
-
-          <div className="pt-4 border-t text-sm text-gray-500">
-            <p>Creado: {new Date(ticket.createdAt).toLocaleString('es-ES')}</p>
-            <p>Actualizado: {new Date(ticket.updatedAt).toLocaleString('es-ES')}</p>
           </div>
-        </div>
+        </CardContent>
       </Card>
     </div>
   );

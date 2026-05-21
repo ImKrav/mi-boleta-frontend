@@ -15,7 +15,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
         type="button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-3 py-1 rounded border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+        className="px-3 py-1 rounded border border-border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted/50 text-foreground cursor-pointer"
       >
         Anterior
       </button>
@@ -26,10 +26,10 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
           type="button"
           onClick={() => onPageChange(page)}
           aria-current={page === currentPage ? 'page' : undefined}
-          className={`px-3 py-1 rounded border ${
+          className={`px-3 py-1 rounded border border-border cursor-pointer ${
             page === currentPage
-              ? 'bg-blue-600 text-white'
-              : 'hover:bg-gray-50'
+              ? 'bg-primary text-on-primary'
+              : 'hover:bg-muted/50 text-foreground'
           }`}
         >
           {page}
@@ -40,7 +40,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
         type="button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-3 py-1 rounded border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+        className="px-3 py-1 rounded border border-border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted/50 text-foreground cursor-pointer"
       >
         Siguiente
       </button>

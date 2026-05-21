@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useAuth } from '@/providers/auth-provider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { validateEmail, validatePassword, validateRequired, parseApiError } from '@/lib/auth';
 
 export function RegisterForm() {
@@ -47,65 +47,69 @@ export function RegisterForm() {
   };
 
   return (
-    <Card className="w-full">
-      <div className="text-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Crear Cuenta</h1>
-        <p className="text-gray-600 mt-1">Administra tus boletas y sorteos</p>
-      </div>
+    <Card>
+      <CardHeader className="text-center pt-10">
+        <CardTitle className="text-2xl font-semibold text-primary">Crear Cuenta</CardTitle>
+        <p className="text-muted-foreground mt-2 text-sm">Administra tus boletas y sorteos</p>
+      </CardHeader>
 
-      {errors.general && (
-        <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
-          {errors.general.map((err, i) => (
-            <p key={i}>{err}</p>
-          ))}
-        </div>
-      )}
+      <CardContent>
+        {errors.general && (
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm dark:bg-red-900/20 dark:border-red-800 dark:text-red-300">
+            {errors.general.map((err, i) => (
+              <p key={i}>{err}</p>
+            ))}
+          </div>
+        )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <Input
-          id="name"
-          type="text"
-          label="Nombre"
-          value={name}
-          onChange={(e) => { setName(e.target.value); setErrors(prev => ({ ...prev, name: undefined })); }}
-          error={errors.name}
-          placeholder="Juan Pérez"
-          autoComplete="name"
-        />
-        
-        <Input
-          id="email"
-          type="email"
-          label="Email"
-          value={email}
-          onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: undefined })); }}
-          error={errors.email}
-          placeholder="tu@email.com"
-          autoComplete="email"
-        />
-        
-        <Input
-          id="password"
-          type="password"
-          label="Contraseña"
-          value={password}
-          onChange={(e) => { setPassword(e.target.value); setErrors(prev => ({ ...prev, password: undefined })); }}
-          error={errors.password}
-          placeholder="Mínimo 8 caracteres"
-          autoComplete="new-password"
-        />
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <Input
+            id="name"
+            type="text"
+            label="Nombre"
+            value={name}
+            onChange={(e) => { setName(e.target.value); setErrors(prev => ({ ...prev, name: undefined })); }}
+            error={errors.name}
+            placeholder="Juan Pérez"
+            autoComplete="name"
+          />
+          
+          <Input
+            id="email"
+            type="email"
+            label="Email"
+            value={email}
+            onChange={(e) => { setEmail(e.target.value); setErrors(prev => ({ ...prev, email: undefined })); }}
+            error={errors.email}
+            placeholder="tu@email.com"
+            autoComplete="email"
+          />
+          
+          <Input
+            id="password"
+            type="password"
+            label="Contraseña"
+            value={password}
+            onChange={(e) => { setPassword(e.target.value); setErrors(prev => ({ ...prev, password: undefined })); }}
+            error={errors.password}
+            placeholder="Mínimo 8 caracteres"
+            autoComplete="new-password"
+          />
 
-        <Button type="submit" loading={loading} className="w-full">
-          Registrarse
-        </Button>
-      </form>
+          <Button type="submit" loading={loading} className="w-full">
+            Registrarse
+          </Button>
+        </form>
+      </CardContent>
 
-      <p className="mt-4 text-center text-sm text-gray-600">
-        ¿Ya tienes cuenta?{' '}
-        <Link href="/login" className="text-blue-600 hover:underline">
-          Inicia sesión
-        </Link>
-      </p>
+      <CardFooter className="justify-center pb-10">
+        <p className="text-sm text-muted-foreground">
+          ¿Ya tienes cuenta?{' '}
+          <Link href="/login" className="text-primary hover:underline font-medium">
+            Inicia sesión
+          </Link>
+        </p>
+      </CardFooter>
     </Card>
   );
 }

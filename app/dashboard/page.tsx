@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ticketsApi } from '@/lib/api';
 import type { Ticket } from '@/types';
-import { Card } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Spinner } from '@/components/ui/spinner';
 import Link from 'next/link';
@@ -47,44 +47,62 @@ export default function DashboardPage() {
   }
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+    <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
         <Link href="/dashboard/tickets/new">
           <Button>Nueva Boleta</Button>
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
         <Card>
-          <p className="text-sm text-gray-600">Total Boletas</p>
-          <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Total Boletas</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-semibold text-foreground">{stats.total}</p>
+          </CardContent>
         </Card>
         <Card>
-          <p className="text-sm text-gray-600">Pendientes</p>
-          <p className="text-3xl font-bold text-yellow-600">{stats.pending}</p>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Pendientes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-semibold text-amber-600">{stats.pending}</p>
+          </CardContent>
         </Card>
         <Card>
-          <p className="text-sm text-gray-600">Próximos Sorteos</p>
-          <p className="text-3xl font-bold text-blue-600">{stats.upcoming}</p>
+          <CardHeader>
+            <CardTitle className="text-sm font-medium text-muted-foreground">Próximos Sorteos</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-3xl font-semibold text-primary">{stats.upcoming}</p>
+          </CardContent>
         </Card>
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold mb-4">Próximos Sorteos</h2>
+        <h2 className="text-lg font-semibold text-foreground mb-4">Próximos Sorteos</h2>
         {upcomingTickets.length === 0 ? (
-          <p className="text-gray-500">No hay sorteos próximos</p>
+          <p className="text-muted-foreground">No hay sorteos próximos</p>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-4">
             {upcomingTickets.map((ticket) => (
-              <Card key={ticket.id} className="flex justify-between items-center">
-                <div>
-                  <p className="font-medium">{ticket.title}</p>
-                  <p className="text-sm text-gray-600">
-                    {new Date(ticket.gameDate).toLocaleDateString('es-ES')}
-                  </p>
+              <Card key={ticket.id}>
+                <div className="flex items-center justify-between px-6 py-4">
+                  <div>
+                    <p className="font-medium text-foreground">{ticket.title}</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {new Date(ticket.gameDate).toLocaleDateString('es-ES', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </p>
+                  </div>
+                  <Badge variant="warning">{ticket.status}</Badge>
                 </div>
-                <Badge variant="warning">{ticket.status}</Badge>
               </Card>
             ))}
           </div>

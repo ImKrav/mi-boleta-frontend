@@ -34,12 +34,12 @@ export default function EditTicketPage() {
   }
 
   if (!ticket) {
-    return <p className="text-center text-gray-500">Boleta no encontrada</p>;
+    return <p className="text-center text-muted-foreground py-12">Boleta no encontrada</p>;
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Editar Boleta</h1>
+    <div className="space-y-6">
+      <h1 className="text-2xl font-semibold text-foreground">Editar Boleta</h1>
       <TicketForm ticket={ticket} mode="edit" />
     </div>
   );

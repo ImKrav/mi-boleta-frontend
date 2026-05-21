@@ -60,8 +60,8 @@ export function AdminTicketTable() {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-600">{error}</p>
-        <button type="button" onClick={() => fetchTickets(1)} className="text-blue-600 hover:underline mt-2">
+        <p className="text-destructive">{error}</p>
+        <button type="button" onClick={() => fetchTickets(1)} className="text-primary hover:underline mt-4 inline-block cursor-pointer">
           Reintentar
         </button>
       </div>
@@ -69,89 +69,91 @@ export function AdminTicketTable() {
   }
 
   return (
-    <div>
-      <Card className="mb-6">
-        <h3 className="text-sm font-medium mb-3">Filtros</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-          <Input
-            id="admin-search"
-            type="text"
-            placeholder="Buscar..."
-            value={filters.q || ''}
-            onChange={(e) => setFilters({ ...filters, q: e.target.value })}
-          />
-          
-          <Select
-            id="admin-status"
-            value={filters.status || ''}
-            onChange={(e) => setFilters({ ...filters, status: (e.target.value as AdminTicket['status']) || undefined })}
-            options={[
-              { value: '', label: 'Todos los estados' },
-              ...TICKET_STATUSES.map((s) => ({ value: s, label: s })),
-            ]}
-          />
-          
-          <Select
-            id="admin-type"
-            value={filters.gameType || ''}
-            onChange={(e) => setFilters({ ...filters, gameType: (e.target.value as AdminTicket['gameType']) || undefined })}
-            options={[
-              { value: '', label: 'Todos los tipos' },
-              ...GAME_TYPES.map((t) => ({ value: t, label: t })),
-            ]}
-          />
+    <div className="space-y-6">
+      <Card>
+        <div className="p-6">
+          <h3 className="text-sm font-medium text-muted-foreground mb-4">Filtros</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+            <Input
+              id="admin-search"
+              type="text"
+              placeholder="Buscar..."
+              value={filters.q || ''}
+              onChange={(e) => setFilters({ ...filters, q: e.target.value })}
+            />
+            
+            <Select
+              id="admin-status"
+              value={filters.status || ''}
+              onChange={(e) => setFilters({ ...filters, status: (e.target.value as AdminTicket['status']) || undefined })}
+              options={[
+                { value: '', label: 'Todos los estados' },
+                ...TICKET_STATUSES.map((s) => ({ value: s, label: s })),
+              ]}
+            />
+            
+            <Select
+              id="admin-type"
+              value={filters.gameType || ''}
+              onChange={(e) => setFilters({ ...filters, gameType: (e.target.value as AdminTicket['gameType']) || undefined })}
+              options={[
+                { value: '', label: 'Todos los tipos' },
+                ...GAME_TYPES.map((t) => ({ value: t, label: t })),
+              ]}
+            />
 
-          <Input
-            id="admin-userId"
-            type="text"
-            placeholder="Filtrar por User ID..."
-            value={filters.userId || ''}
-            onChange={(e) => setFilters({ ...filters, userId: e.target.value })}
-          />
-        </div>
-
-        {hasFilters && (
-          <div className="mt-3 flex justify-end">
-            <Button variant="ghost" size="sm" onClick={handleReset}>
-              Limpiar filtros
-            </Button>
+            <Input
+              id="admin-userId"
+              type="text"
+              placeholder="Filtrar por User ID..."
+              value={filters.userId || ''}
+              onChange={(e) => setFilters({ ...filters, userId: e.target.value })}
+            />
           </div>
-        )}
+
+          {hasFilters && (
+            <div className="mt-4 flex justify-end">
+              <Button variant="ghost" size="sm" onClick={handleReset}>
+                Limpiar filtros
+              </Button>
+            </div>
+          )}
+        </div>
       </Card>
 
       {tickets.length === 0 ? (
-        <p className="text-center text-gray-500 py-8">No se encontraron boletas</p>
+        <p className="text-center text-muted-foreground py-12">No se encontraron boletas</p>
       ) : (
         <>
-          <div className="bg-white rounded-lg shadow overflow-hidden">
+          <Card>
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+              <table className="min-w-full">
+                <thead className="bg-muted border-b border-border">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Boleta</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Tipo</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Número</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Propietario</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Boleta</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Tipo</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Número</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Fecha</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Estado</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Propietario</th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
+                <tbody className="divide-y divide-border">
                   {tickets.map((ticket) => (
-                    <tr key={ticket.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3 text-sm font-medium text-gray-900">{ticket.title}</td>
-                      <td className="px-4 py-3 text-sm text-gray-600">{ticket.gameType}</td>
-                      <td className="px-4 py-3 text-sm text-gray-600">{ticket.gameNumber || '-'}</td>
-                      <td className="px-4 py-3 text-sm text-gray-600">
+                    <tr key={ticket.id} className="hover:bg-muted/50 transition-colors">
+                      <td className="px-6 py-4 text-sm font-medium text-foreground">{ticket.title}</td>
+                      <td className="px-6 py-4 text-sm text-muted-foreground">{ticket.gameType}</td>
+                      <td className="px-6 py-4 text-sm text-muted-foreground">{ticket.gameNumber || '-'}</td>
+                      <td className="px-6 py-4 text-sm text-muted-foreground">
                         {new Date(ticket.gameDate).toLocaleDateString('es-ES')}
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-6 py-4">
                         <Badge variant={statusColors[ticket.status]}>{ticket.status}</Badge>
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-600">
+                      <td className="px-6 py-4 text-sm">
                         <div>
-                          <p className="font-medium">{ticket.owner.name}</p>
-                          <p className="text-gray-500">{ticket.owner.email}</p>
+                          <p className="font-medium text-foreground">{ticket.owner.name}</p>
+                          <p className="text-muted-foreground">{ticket.owner.email}</p>
                         </div>
                       </td>
                     </tr>
@@ -159,9 +161,9 @@ export function AdminTicketTable() {
                 </tbody>
               </table>
             </div>
-          </div>
+          </Card>
 
-          <div className="mt-6">
+          <div className="pt-2">
             <Pagination
               currentPage={meta.page}
               totalPages={meta.totalPages}

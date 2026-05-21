@@ -21,75 +21,83 @@ export function TicketCard({ ticket, onDelete }: TicketCardProps) {
   const isPast = gameDate < new Date();
 
   return (
-    <Card className="hover:shadow-lg transition-shadow">
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <h3 className="text-lg font-semibold text-gray-900">{ticket.title}</h3>
-            <Badge variant={statusColors[ticket.status]}>{ticket.status}</Badge>
-          </div>
+    <Card>
+      <div className="px-6 py-5">
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+          <div className="flex-1 space-y-3">
+            <div className="flex items-center gap-3">
+              <h3 className="text-lg font-semibold text-foreground">{ticket.title}</h3>
+              <Badge variant={statusColors[ticket.status]}>{ticket.status}</Badge>
+            </div>
 
-          <div className="space-y-1 text-sm text-gray-600">
-            <p>
-              <span className="font-medium">Tipo:</span> {ticket.gameType}
-            </p>
-            {ticket.gameNumber && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-sm">
               <p>
-                <span className="font-medium">Número:</span> {ticket.gameNumber}
+                <span className="font-medium text-foreground">Tipo:</span>{' '}
+                <span className="text-muted-foreground">{ticket.gameType}</span>
               </p>
-            )}
-            <p>
-              <span className="font-medium">Fecha:</span>{' '}
-              {gameDate.toLocaleDateString('es-ES', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-              {isPast && ticket.status === 'Pendiente' && (
-                <span className="ml-2 text-red-600">(Vencido)</span>
+              {ticket.gameNumber && (
+                <p>
+                  <span className="font-medium text-foreground">Número:</span>{' '}
+                  <span className="text-muted-foreground">{ticket.gameNumber}</span>
+                </p>
               )}
-            </p>
-            {ticket.place && (
               <p>
-                <span className="font-medium">Lugar:</span> {ticket.place}
+                <span className="font-medium text-foreground">Fecha:</span>{' '}
+                <span className="text-muted-foreground">
+                  {gameDate.toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                  })}
+                </span>
+                {isPast && ticket.status === 'Pendiente' && (
+                  <span className="ml-2 text-destructive">(Vencido)</span>
+                )}
               </p>
-            )}
-            {ticket.amount && (
-              <p>
-                <span className="font-medium">Valor:</span> ${ticket.amount.toLocaleString('es-CO')}
+              {ticket.place && (
+                <p>
+                  <span className="font-medium text-foreground">Lugar:</span>{' '}
+                  <span className="text-muted-foreground">{ticket.place}</span>
+                </p>
+              )}
+              {ticket.amount && (
+                <p>
+                  <span className="font-medium text-foreground">Valor:</span>{' '}
+                  <span className="text-muted-foreground">${ticket.amount.toLocaleString('es-CO')}</span>
+                </p>
+              )}
+            </div>
+
+            {ticket.notes && (
+              <p className="text-sm text-muted-foreground italic line-clamp-2 pt-1">
+                {ticket.notes}
               </p>
             )}
           </div>
 
-          {ticket.notes && (
-            <p className="mt-3 text-sm text-gray-500 italic line-clamp-2">
-              {ticket.notes}
-            </p>
-          )}
-        </div>
-
-        <div className="flex sm:flex-col gap-2">
-          <Link
-            href={`/dashboard/tickets/${ticket.id}`}
-            className="text-blue-600 hover:text-blue-800 text-sm font-medium"
-          >
-            Ver
-          </Link>
-          <Link
-            href={`/dashboard/tickets/${ticket.id}/edit`}
-            className="text-gray-600 hover:text-gray-800 text-sm font-medium"
-          >
-            Editar
-          </Link>
-          {onDelete && (
-            <button
-              type="button"
-              onClick={() => onDelete(ticket.id)}
-              className="text-red-600 hover:text-red-800 text-sm font-medium"
+          <div className="flex sm:flex-col gap-3 sm:gap-2 sm:items-end">
+            <Link
+              href={`/dashboard/tickets/${ticket.id}`}
+              className="text-primary hover:text-primary/80 text-sm font-medium cursor-pointer"
             >
-              Eliminar
-            </button>
-          )}
+              Ver
+            </Link>
+            <Link
+              href={`/dashboard/tickets/${ticket.id}/edit`}
+              className="text-secondary hover:text-secondary/80 text-sm font-medium cursor-pointer"
+            >
+              Editar
+            </Link>
+            {onDelete && (
+              <button
+                type="button"
+                onClick={() => onDelete(ticket.id)}
+                className="text-destructive hover:text-destructive/80 text-sm font-medium cursor-pointer"
+              >
+                Eliminar
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </Card>
