@@ -23,7 +23,7 @@ const sizes = {
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = 'primary', size = 'md', loading = false, children, disabled, className = '', ...props }, ref) => {
+  ({ type = 'button', variant = 'primary', size = 'md', loading = false, children, disabled, className = '', ...props }, ref) => {
     return (
       <button
         ref={ref}
