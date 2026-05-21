@@ -5,8 +5,9 @@ import Link from 'next/link';
 import { useAuth } from '@/providers/auth-provider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
+import { Card, CardHeader, CardTitle, CardContent, CardFooter, CardDescription } from '@/components/ui/card';
 import { validateEmail, validatePassword, parseApiError } from '@/lib/auth';
+import { TicketIcon } from '@/components/ui/icons';
 
 export function LoginForm() {
   const { login } = useAuth();
@@ -40,17 +41,20 @@ export function LoginForm() {
   };
 
   return (
-    <Card>
-      <CardHeader className="text-center pt-10">
-        <CardTitle className="text-2xl font-semibold text-primary">Mi Boleta</CardTitle>
-        <p className="text-muted-foreground mt-2 text-sm">¿Y si sí me lo gané?</p>
+    <Card className="shadow-lg">
+      <CardHeader className="text-center pt-10 pb-6">
+        <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10">
+          <TicketIcon size={32} className="text-primary" />
+        </div>
+        <CardTitle className="text-2xl font-bold text-foreground">Bienvenido</CardTitle>
+        <CardDescription className="mt-2 text-base">¿Y si sí me lo gané?</CardDescription>
       </CardHeader>
 
       <CardContent>
         {errors.general && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm dark:bg-red-900/20 dark:border-red-800 dark:text-red-300">
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
             {errors.general.map((err, i) => (
-              <p key={i}>{err}</p>
+              <p key={i} className="font-medium">{err}</p>
             ))}
           </div>
         )}
@@ -78,7 +82,7 @@ export function LoginForm() {
             autoComplete="current-password"
           />
 
-          <Button type="submit" loading={loading} className="w-full">
+          <Button type="submit" loading={loading} className="w-full" size="lg">
             Iniciar Sesión
           </Button>
         </form>
@@ -87,7 +91,7 @@ export function LoginForm() {
       <CardFooter className="justify-center pb-10">
         <p className="text-sm text-muted-foreground">
           ¿No tienes cuenta?{' '}
-          <Link href="/register" className="text-primary hover:underline font-medium">
+          <Link href="/register" className="text-accent hover:text-accent/80 font-semibold transition-colors">
             Regístrate aquí
           </Link>
         </p>

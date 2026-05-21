@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Pagination } from '@/components/ui/pagination';
 import { Spinner } from '@/components/ui/spinner';
 import { Card } from '@/components/ui/card';
+import { SearchIcon, FilterIcon } from '@/components/ui/icons';
 
 const statusColors = {
   Pendiente: 'warning' as const,
@@ -60,8 +61,8 @@ export function AdminTicketTable() {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-destructive">{error}</p>
-        <button type="button" onClick={() => fetchTickets(1)} className="text-primary hover:underline mt-4 inline-block cursor-pointer">
+        <p className="text-destructive font-medium">{error}</p>
+        <button type="button" onClick={() => fetchTickets(1)} className="text-accent hover:text-accent/80 font-semibold mt-4 inline-block cursor-pointer transition-colors">
           Reintentar
         </button>
       </div>
@@ -71,16 +72,23 @@ export function AdminTicketTable() {
   return (
     <div className="space-y-6">
       <Card>
-        <div className="p-6">
-          <h3 className="text-sm font-medium text-muted-foreground mb-4">Filtros</h3>
+        <div className="p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <FilterIcon size={16} className="text-muted-foreground" />
+            <h3 className="text-sm font-semibold text-foreground">Filtros</h3>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-            <Input
-              id="admin-search"
-              type="text"
-              placeholder="Buscar..."
-              value={filters.q || ''}
-              onChange={(e) => setFilters({ ...filters, q: e.target.value })}
-            />
+            <div className="relative">
+              <SearchIcon size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+              <Input
+                id="admin-search"
+                type="text"
+                placeholder="Buscar..."
+                value={filters.q || ''}
+                onChange={(e) => setFilters({ ...filters, q: e.target.value })}
+                className="pl-10"
+              />
+            </div>
             
             <Select
               id="admin-status"
@@ -113,16 +121,20 @@ export function AdminTicketTable() {
 
           {hasFilters && (
             <div className="mt-4 flex justify-end">
-              <Button variant="ghost" size="sm" onClick={handleReset}>
-                Limpiar filtros
-              </Button>
+                <Button variant="outline" size="sm" onClick={handleReset}>
+                  <FilterIcon size={14} /> Limpiar filtros
+                </Button>
             </div>
           )}
         </div>
       </Card>
 
       {tickets.length === 0 ? (
-        <p className="text-center text-muted-foreground py-12">No se encontraron boletas</p>
+        <Card>
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No se encontraron boletas</p>
+          </div>
+        </Card>
       ) : (
         <>
           <Card>
@@ -130,21 +142,21 @@ export function AdminTicketTable() {
               <table className="min-w-full">
                 <thead className="bg-muted border-b border-border">
                   <tr>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Boleta</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Tipo</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Número</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Fecha</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Estado</th>
-                    <th className="px-6 py-4 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">Propietario</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Boleta</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Tipo</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Número</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Fecha</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Estado</th>
+                    <th className="px-6 py-3.5 text-left text-xs font-bold text-muted-foreground uppercase tracking-wider">Propietario</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border">
                   {tickets.map((ticket) => (
                     <tr key={ticket.id} className="hover:bg-muted/50 transition-colors">
-                      <td className="px-6 py-4 text-sm font-medium text-foreground">{ticket.title}</td>
-                      <td className="px-6 py-4 text-sm text-muted-foreground">{ticket.gameType}</td>
-                      <td className="px-6 py-4 text-sm text-muted-foreground">{ticket.gameNumber || '-'}</td>
-                      <td className="px-6 py-4 text-sm text-muted-foreground">
+                      <td className="px-6 py-4 text-sm font-semibold text-foreground">{ticket.title}</td>
+                      <td className="px-6 py-4 text-sm text-foreground">{ticket.gameType}</td>
+                      <td className="px-6 py-4 text-sm font-mono text-foreground">{ticket.gameNumber || '-'}</td>
+                      <td className="px-6 py-4 text-sm text-foreground">
                         {new Date(ticket.gameDate).toLocaleDateString('es-ES')}
                       </td>
                       <td className="px-6 py-4">
@@ -152,7 +164,7 @@ export function AdminTicketTable() {
                       </td>
                       <td className="px-6 py-4 text-sm">
                         <div>
-                          <p className="font-medium text-foreground">{ticket.owner.name}</p>
+                          <p className="font-semibold text-foreground">{ticket.owner.name}</p>
                           <p className="text-muted-foreground">{ticket.owner.email}</p>
                         </div>
                       </td>

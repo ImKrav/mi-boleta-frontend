@@ -3,23 +3,24 @@
 import { forwardRef } from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   children: React.ReactNode;
 }
 
 const variants = {
-  primary: 'bg-primary text-on-primary hover:bg-primary/90 focus:ring-primary shadow-sm',
-  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90 focus:ring-secondary shadow-sm',
-  danger: 'bg-destructive text-on-destructive hover:bg-destructive/90 focus:ring-destructive shadow-sm',
-  ghost: 'bg-transparent text-foreground hover:bg-muted/50 focus:ring-muted-foreground',
+  primary: 'bg-primary text-on-primary hover:bg-primary/90 focus:ring-primary/30 shadow-sm hover:shadow',
+  secondary: 'bg-secondary text-on-secondary hover:bg-secondary/90 focus:ring-secondary/30 shadow-sm hover:shadow',
+  danger: 'bg-destructive text-on-destructive hover:bg-destructive/90 focus:ring-destructive/30 shadow-sm hover:shadow',
+  ghost: 'bg-transparent text-foreground hover:bg-muted focus:ring-muted-foreground/30',
+  outline: 'bg-transparent text-foreground border border-border hover:bg-muted focus:ring-muted-foreground/30',
 };
 
 const sizes = {
   sm: 'px-3 py-1.5 text-sm',
-  md: 'px-4 py-2 text-base',
-  lg: 'px-6 py-3 text-lg',
+  md: 'px-4 py-2 text-sm',
+  lg: 'px-6 py-2.5 text-base',
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
@@ -31,7 +32,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={disabled || loading}
         className={`
           inline-flex items-center justify-center gap-2 font-medium rounded-lg
-          transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2
+          transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2
           disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer
           ${variants[variant]} ${sizes[size]} ${className}
         `}

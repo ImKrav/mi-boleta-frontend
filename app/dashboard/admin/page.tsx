@@ -6,6 +6,7 @@ import { useAuth } from '@/providers/auth-provider';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { AdminTicketTable } from '@/components/admin/admin-ticket-table';
+import { ShieldIcon } from '@/components/ui/icons';
 
 export default function AdminPage() {
   const { user } = useAuth();
@@ -23,7 +24,15 @@ export default function AdminPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold text-foreground">Panel de Administrador</h1>
+      <div className="flex items-center gap-3">
+        <div className="p-2.5 bg-primary/10 rounded-xl">
+          <ShieldIcon size={24} className="text-primary" />
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Panel de Administrador</h1>
+          <p className="text-muted-foreground mt-1">Gestión de todas las boletas del sistema</p>
+        </div>
+      </div>
       <AdminTicketTable />
     </div>
   );

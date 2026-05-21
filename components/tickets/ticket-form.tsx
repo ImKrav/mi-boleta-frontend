@@ -95,15 +95,15 @@ export function TicketForm({ ticket, mode }: TicketFormProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl font-semibold text-foreground">
+        <CardTitle className="text-xl font-bold text-foreground">
           {mode === 'create' ? 'Nueva Boleta' : 'Editar Boleta'}
         </CardTitle>
       </CardHeader>
 
       <CardContent>
         {errors.general && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm dark:bg-red-900/20 dark:border-red-800 dark:text-red-300">
-            {errors.general.map((err, i) => <p key={i}>{err}</p>)}
+          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-800 text-sm">
+            {errors.general.map((err, i) => <p key={i} className="font-medium">{err}</p>)}
           </div>
         )}
 
@@ -190,10 +190,10 @@ export function TicketForm({ ticket, mode }: TicketFormProps) {
           />
 
           <div className="flex items-center gap-4 pt-4">
-            <Button type="submit" loading={loading}>
+            <Button type="submit" loading={loading} size="lg">
               {mode === 'create' ? 'Crear Boleta' : 'Guardar Cambios'}
             </Button>
-            <Button type="button" variant="secondary" onClick={() => router.back()}>
+            <Button type="button" variant="outline" onClick={() => router.back()}>
               Cancelar
             </Button>
           </div>

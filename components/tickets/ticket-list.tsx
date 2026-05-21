@@ -10,6 +10,7 @@ import { TicketCard } from './ticket-card';
 import { TicketFilters as FiltersComponent } from './ticket-filters';
 import { Pagination } from '@/components/ui/pagination';
 import { Spinner } from '@/components/ui/spinner';
+import { Card, CardContent } from '@/components/ui/card';
 
 export function TicketList() {
   const [tickets, setTickets] = useState<Ticket[]>([]);
@@ -63,8 +64,8 @@ export function TicketList() {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-destructive">{error}</p>
-        <button onClick={() => fetchTickets(1)} className="text-primary hover:underline mt-4 inline-block cursor-pointer">
+        <p className="text-destructive font-medium">{error}</p>
+        <button onClick={() => fetchTickets(1)} className="text-accent hover:text-accent/80 font-semibold mt-4 inline-block cursor-pointer transition-colors">
           Reintentar
         </button>
       </div>
@@ -76,12 +77,14 @@ export function TicketList() {
       <FiltersComponent filters={filters} onFilterChange={setFilters} onReset={handleReset} />
 
       {tickets.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="text-muted-foreground text-lg">No hay boletas registradas</p>
-          <Link href="/dashboard/tickets/new" className="text-primary hover:underline mt-4 inline-block">
-            Crear tu primera boleta
-          </Link>
-        </div>
+        <Card>
+          <CardContent className="py-16 text-center">
+            <p className="text-muted-foreground text-lg mb-4">No hay boletas registradas</p>
+            <Link href="/dashboard/tickets/new" className="text-accent hover:text-accent/80 font-semibold transition-colors">
+              Crear tu primera boleta →
+            </Link>
+          </CardContent>
+        </Card>
       ) : (
         <>
           <div className="space-y-4">

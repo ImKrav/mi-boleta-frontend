@@ -6,6 +6,7 @@ import type { Ticket } from '@/types';
 import { ticketsApi } from '@/lib/api';
 import { TicketForm } from '@/components/tickets/ticket-form';
 import { Spinner } from '@/components/ui/spinner';
+import { EditIcon } from '@/components/ui/icons';
 
 export default function EditTicketPage() {
   const params = useParams();
@@ -39,7 +40,15 @@ export default function EditTicketPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-semibold text-foreground">Editar Boleta</h1>
+      <div className="flex items-center gap-3">
+        <div className="p-2.5 bg-secondary/10 rounded-xl">
+          <EditIcon size={24} className="text-secondary" />
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold text-foreground">Editar Boleta</h1>
+          <p className="text-muted-foreground mt-0.5">Modifica los datos de tu boleta</p>
+        </div>
+      </div>
       <TicketForm ticket={ticket} mode="edit" />
     </div>
   );

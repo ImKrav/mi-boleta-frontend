@@ -33,12 +33,12 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
   const pages = getPageNumbers(currentPage, totalPages);
 
   return (
-    <nav className="flex items-center justify-center gap-1 sm:gap-2 flex-wrap" aria-label="Pagination">
+    <nav className="flex items-center justify-center gap-1.5 sm:gap-2 flex-wrap" aria-label="Pagination">
       <button
         type="button"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-2 sm:px-3 py-1 rounded border border-border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted/50 text-foreground cursor-pointer text-sm"
+        className="px-3 py-1.5 rounded-lg border border-border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted text-foreground font-medium cursor-pointer text-sm transition-colors"
       >
         Anterior
       </button>
@@ -52,10 +52,10 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
             type="button"
             onClick={() => onPageChange(page)}
             aria-current={page === currentPage ? 'page' : undefined}
-            className={`px-2 sm:px-3 py-1 rounded border border-border cursor-pointer text-sm ${
+            className={`min-w-[2rem] px-2 sm:px-3 py-1.5 rounded-lg border border-border cursor-pointer text-sm font-medium transition-all duration-200 ${
               page === currentPage
-                ? 'bg-primary text-on-primary'
-                : 'hover:bg-muted/50 text-foreground'
+                ? 'bg-primary text-on-primary border-primary shadow-sm'
+                : 'hover:bg-muted text-foreground'
             }`}
           >
             {page}
@@ -67,7 +67,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
         type="button"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-2 sm:px-3 py-1 rounded border border-border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted/50 text-foreground cursor-pointer text-sm"
+        className="px-3 py-1.5 rounded-lg border border-border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-muted text-foreground font-medium cursor-pointer text-sm transition-colors"
       >
         Siguiente
       </button>

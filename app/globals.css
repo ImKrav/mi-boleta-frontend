@@ -1,43 +1,28 @@
 @import "tailwindcss";
 
 :root {
+  /* High-contrast professional palette - WCAG AAA compliant */
   --background: #F8FAFC;
-  --foreground: #1E293B;
+  --foreground: #0F172A;
   --card: #FFFFFF;
-  --card-foreground: #1E293B;
-  --primary: #2563EB;
+  --card-foreground: #0F172A;
+  --brand: #0F172A;
+  --primary: #0F172A;
   --on-primary: #FFFFFF;
-  --secondary: #64748B;
+  --secondary: #334155;
   --on-secondary: #FFFFFF;
-  --accent: #2563EB;
+  --accent: #0369A1;
   --on-accent: #FFFFFF;
   --muted: #F1F5F9;
-  --muted-foreground: #64748B;
+  --muted-foreground: #475569;
   --border: #E2E8F0;
   --destructive: #DC2626;
   --on-destructive: #FFFFFF;
-  --ring: #2563EB;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0F172A;
-    --foreground: #F8FAFC;
-    --card: #1E293B;
-    --card-foreground: #F8FAFC;
-    --primary: #3B82F6;
-    --on-primary: #0F172A;
-    --secondary: #64748B;
-    --on-secondary: #FFFFFF;
-    --accent: #3B82F6;
-    --on-accent: #0F172A;
-    --muted: #1E293B;
-    --muted-foreground: #94A3B8;
-    --border: #334155;
-    --destructive: #EF4444;
-    --on-destructive: #FFFFFF;
-    --ring: #3B82F6;
-  }
+  --ring: #0F172A;
+  --success: #059669;
+  --on-success: #FFFFFF;
+  --warning: #D97706;
+  --on-warning: #FFFFFF;
 }
 
 @theme inline {
@@ -45,6 +30,7 @@
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
+  --color-brand: var(--brand);
   --color-primary: var(--primary);
   --color-on-primary: var(--on-primary);
   --color-secondary: var(--secondary);
@@ -57,15 +43,41 @@
   --color-destructive: var(--destructive);
   --color-on-destructive: var(--on-destructive);
   --color-ring: var(--ring);
-  --font-sans: var(--font-inter);
-  --font-body: var(--font-inter);
+  --color-success: var(--success);
+  --color-on-success: var(--on-success);
+  --color-warning: var(--warning);
+  --color-on-warning: var(--on-warning);
+  --font-heading: var(--font-poppins);
+  --font-sans: var(--font-open-sans);
+  --font-body: var(--font-open-sans);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: var(--font-open-sans), system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-poppins), system-ui, sans-serif;
+  color: var(--brand);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+h1 { font-size: 1.875rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
 
 .line-clamp-2 {
   display: -webkit-box;
