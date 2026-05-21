@@ -40,7 +40,9 @@ export default function DashboardPage() {
         });
 
         setUpcomingTickets(upcoming.slice(0, 5));
-        setRecentTickets(recentRes.data);
+
+        const history = recentRes.data.filter((t) => t.status !== 'Pendiente');
+        setRecentTickets(history);
       } catch (err) {
         console.error('Error fetching dashboard data:', err);
       } finally {

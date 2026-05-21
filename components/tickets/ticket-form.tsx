@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import type { Ticket } from '@/types';
 import { GAME_TYPES, TICKET_STATUSES } from '@/lib/constants';
 import { ticketsApi } from '@/lib/api';
+import { useAuth } from '@/providers/auth-provider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select } from '@/components/ui/select';
@@ -21,6 +22,7 @@ interface TicketFormProps {
 
 export function TicketForm({ ticket, mode }: TicketFormProps) {
   const router = useRouter();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
 
@@ -165,14 +167,18 @@ export function TicketForm({ ticket, mode }: TicketFormProps) {
             placeholder="Tienda La Esquina"
           />
 
-          <Select
-            id="status"
-            label="Estado *"
-            value={formData.status}
-            onChange={(e) => setFormData({ ...formData, status: e.target.value as Ticket['status'] })}
-            error={errors.status?.[0]}
-            options={TICKET_STATUSES.map((s) => ({ value: s, label: s }))}
-          />
+          {mode === 'edit' || user?.role === 'admin' ? (
+            <Select
+              id="status"
+              label="Estado *"
+              value={formData.status}
+              onChange={(e) => setFormData({ ...formData, status: e.target.value as Ticket['status'] })}
+              error={errors.status?.[0]}
+              options={TICKET_STATUSES.map((s) => ({ value: s, label: s }))}
+            />
+          ) : (
+            <input type="hidden" name="status" value="Pendiente" />
+          )}
 
           <Textarea
             id="notes"
